@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.enigmacamp.goldmarket.utils.ResourceStatus
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.utils.RegistrationUtil
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initViewModel() {
-        viewModel = MainViewModel()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
     fun subscribe() {
