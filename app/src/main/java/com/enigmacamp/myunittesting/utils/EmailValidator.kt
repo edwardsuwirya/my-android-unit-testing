@@ -1,4 +1,4 @@
-package com.enigmacamp.myunittesting
+package com.enigmacamp.myunittesting.utils
 
 import java.util.regex.Pattern
 
