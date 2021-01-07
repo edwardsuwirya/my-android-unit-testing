@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enigmacamp.goldmarket.utils.ResourceStatus
 import com.enigmacamp.myunittesting.R
-import com.enigmacamp.myunittesting.data.dao.UserDao
+import com.enigmacamp.myunittesting.data.dao.MyDatabase
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
 import com.enigmacamp.myunittesting.databinding.FragmentSignupBinding
+import com.enigmacamp.myunittesting.utils.DefaultDispatcherProvider
+import com.enigmacamp.myunittesting.utils.DispatcherProvider
 
 /**
  * A simple [Fragment] subclass.
@@ -58,8 +60,9 @@ class SignupFragment : Fragment() {
     fun initViewModel() {
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                val repository = UserRepository(UserDao())
-                return SignUpViewModel(repository) as T
+                val db = MyDatabase.getDatabase(requireContext())
+                val repository = UserRepository(db.userDao())
+                return SignUpViewModel(repository, DefaultDispatcherProvider()) as T
             }
 
         }).get(SignUpViewModel::class.java)
@@ -70,20 +73,30 @@ class SignupFragment : Fragment() {
             when (it.status) {
                 ResourceStatus.LOADING -> Log.d("Main", "Loading")
                 ResourceStatus.SUCCESS -> {
-                    val user = it.data as UserRegistration
-                    Log.d("Main", user.userId)
+                    val resultState = it.data as Boolean
+                    if (resultState) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Success",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    clearForm()
+                }
+                ResourceStatus.ERROR -> {
                     Toast.makeText(
                         requireContext(),
-                        "Success",
+                        it.message,
                         Toast.LENGTH_LONG
                     ).show()
                     clearForm()
                 }
-                ResourceStatus.ERROR -> Toast.makeText(
-                    requireContext(),
-                    "Error",
-                    Toast.LENGTH_LONG
-                ).show()
             }
         })
     }

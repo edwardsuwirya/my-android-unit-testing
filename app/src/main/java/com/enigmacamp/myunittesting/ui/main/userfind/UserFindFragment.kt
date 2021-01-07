@@ -10,11 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enigmacamp.goldmarket.utils.ResourceStatus
 import com.enigmacamp.myunittesting.R
-import com.enigmacamp.myunittesting.data.dao.UserDao
+import com.enigmacamp.myunittesting.data.dao.MyDatabase
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
 import com.enigmacamp.myunittesting.databinding.FragmentUserFindBinding
-import com.enigmacamp.myunittesting.ui.main.signup.SignUpViewModel
+import com.enigmacamp.myunittesting.utils.DefaultDispatcherProvider
 
 
 /**
@@ -50,8 +50,9 @@ class UserFindFragment : Fragment() {
     fun initViewModel() {
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                val repository = UserRepository(UserDao())
-                return UserFindViewModel(repository) as T
+                val db = MyDatabase.getDatabase(requireContext())
+                val repository = UserRepository(db.userDao())
+                return UserFindViewModel(repository, DefaultDispatcherProvider()) as T
             }
 
         }).get(UserFindViewModel::class.java)

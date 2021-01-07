@@ -2,11 +2,12 @@ package com.enigmacamp.myunittesting.ui.main.signup
 
 import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.enigmacamp.myunittesting.data.dao.UserDao
+import com.enigmacamp.myunittesting.MainCoroutineRule
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doNothing
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -16,15 +17,21 @@ import org.mockito.Mock
 import org.mockito.MockedStatic
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import java.util.*
 
 
 class SignUpViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     lateinit var logMock: MockedStatic<Log>
 
     @Mock
-    var userDao: UserDao? = null
+    var userRepository: UserRepository? = null
+    lateinit var viewModel: SignUpViewModel
 
     @Before
     fun registerLogMock() {
@@ -32,6 +39,9 @@ class SignUpViewModelTest {
         logMock = Mockito.mockStatic(Log::class.java).apply {
             `when`<Log> { Log.d(any(), any()) }.thenAnswer { return@thenAnswer 1 }
         }
+
+        viewModel =
+            SignUpViewModel(userRepository!!, mainCoroutineRule.testDispatcherProvider)
     }
 
     @After
@@ -41,35 +51,41 @@ class SignUpViewModelTest {
 
     @Test
     fun userRegistration_onSuccess_returnResourceStateSuccess() {
-        val dummyUser = UserRegistration(
-            userName = "dummy",
-            password = "1",
-            confirmedPassword = "1",
-            email = "test@example.com"
-        )
-        Mockito.`when`(userDao!!.createUser(any())).thenReturn(dummyUser.copy(userId = "abc"))
-        val mainViewModel = SignUpViewModel(userRepository = UserRepository(userDao!!))
+        mainCoroutineRule.runBlockingTest {
+            val dummyUser = UserRegistration(
+                userName = "dummy",
+                password = "1",
+                confirmedPassword = "1",
+                email = "test@example.com"
+            )
+            doNothing().`when`(userRepository!!).registerUser(any())
 
-        mainViewModel.userRegistration(dummyUser)
+            viewModel.userRegistration(dummyUser)
 
-        val actualResult = mainViewModel.registrationStatusLiveData.value?.data as UserRegistration
-        assertThat(actualResult.userId).isEqualTo("abc")
+            val actualResult =
+                viewModel.registrationStatusLiveData.value?.data as Boolean
+            assertThat(actualResult).isEqualTo(true)
+        }
+
     }
 
     @Test
     fun userRegistration_onFailed_returnResourceStateFailed() {
-        val dummyUser = UserRegistration(
-            userName = "",
-            password = "1",
-            confirmedPassword = "1",
-            email = "test@example.com"
-        )
-        Mockito.`when`(userDao!!.createUser(any())).thenReturn(dummyUser)
-        val mainViewModel = SignUpViewModel(userRepository = UserRepository(userDao!!))
+        mainCoroutineRule.runBlockingTest {
+            val dummyUser = UserRegistration(
+                userName = "",
+                password = "1",
+                confirmedPassword = "1",
+                email = "test@example.com"
+            )
+            doNothing().`when`(userRepository!!).registerUser(any())
+            val mainViewModel =
+                SignUpViewModel(userRepository!!, mainCoroutineRule.testDispatcherProvider)
 
-        mainViewModel.userRegistration(dummyUser)
+            mainViewModel.userRegistration(dummyUser)
 
-        val actualResult = mainViewModel.registrationStatusLiveData.value?.message
-        assertThat(actualResult).isEqualTo("Failed")
+            val actualResult = mainViewModel.registrationStatusLiveData.value?.message
+            assertThat(actualResult).isEqualTo("Failed")
+        }
     }
 }
