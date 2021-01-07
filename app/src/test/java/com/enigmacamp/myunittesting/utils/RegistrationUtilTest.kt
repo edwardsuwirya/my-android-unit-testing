@@ -1,7 +1,6 @@
-package com.enigmacamp.myunittesting.ui.main
+package com.enigmacamp.myunittesting.utils
 
 import android.util.Log
-import com.enigmacamp.myunittesting.utils.RegistrationUtil
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
 import org.junit.After
