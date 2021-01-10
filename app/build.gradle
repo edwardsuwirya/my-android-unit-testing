@@ -44,6 +44,9 @@ def lifecycle_ktx_version = "2.2.0"
 def kotlin_coroutine_test_version = "1.4.2"
 
 dependencies {
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutine_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_ktx_version"
@@ -66,10 +69,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation 'com.google.truth:truth:1.1'
+    androidTestImplementation 'org.mockito:mockito-inline:3.6.28'
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    androidTestImplementation 'android.arch.core:core-testing:2.1.0'
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:3.7.0"
+    androidTestImplementation "com.squareup.okhttp3:okhttp:3.7.0"
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutine_test_version"
     testImplementation 'com.google.truth:truth:1.1'
     testImplementation 'org.mockito:mockito-inline:3.6.28'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation 'android.arch.core:core-testing:2.1.0'
+
+    testImplementation "com.squareup.okhttp3:mockwebserver:3.7.0"
+    testImplementation "com.squareup.okhttp3:okhttp:3.7.0"
 }

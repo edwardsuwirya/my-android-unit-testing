@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enigmacamp.goldmarket.utils.ResourceStatus
 import com.enigmacamp.myunittesting.R
+import com.enigmacamp.myunittesting.data.api.RetrofitInstance
 import com.enigmacamp.myunittesting.data.dao.MyDatabase
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
@@ -61,7 +62,7 @@ class SignupFragment : Fragment() {
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 val db = MyDatabase.getDatabase(requireContext())
-                val repository = UserRepository(db.userDao())
+                val repository = UserRepository(db.userDao(), RetrofitInstance.userRegistrationApi)
                 return SignUpViewModel(repository, DefaultDispatcherProvider()) as T
             }
 
