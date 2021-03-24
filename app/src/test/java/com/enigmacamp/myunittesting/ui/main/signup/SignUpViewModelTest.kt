@@ -35,7 +35,7 @@ class SignUpViewModelTest {
 
     @Before
     fun registerLogMock() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this)
         logMock = Mockito.mockStatic(Log::class.java).apply {
             `when`<Log> { Log.d(any(), any()) }.thenAnswer { return@thenAnswer 1 }
         }
