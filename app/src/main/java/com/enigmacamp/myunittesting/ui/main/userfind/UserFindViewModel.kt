@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enigmacamp.goldmarket.utils.ResourceState
 import com.enigmacamp.myunittesting.data.repository.UserRepository
-import com.enigmacamp.myunittesting.utils.DispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserFindViewModel constructor(
-    val userRepository: UserRepository,
-    val dispatcherProvider: DispatcherProvider
+    val userRepository: UserRepository
 ) : ViewModel() {
     var _findUserStatusLiveData = MutableLiveData<ResourceState>()
     val findUserStatueLiveData: LiveData<ResourceState>
@@ -21,7 +19,7 @@ class UserFindViewModel constructor(
         }
 
     fun findUserInfo(userId: String) {
-        viewModelScope.launch(dispatcherProvider.io()) {
+        viewModelScope.launch(Dispatchers.IO) {
             _findUserStatusLiveData.postValue(ResourceState.loading())
             val selectedUser = userRepository.getUserInfo(userId)
             selectedUser?.let {

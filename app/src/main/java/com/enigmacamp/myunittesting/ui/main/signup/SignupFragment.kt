@@ -2,11 +2,11 @@ package com.enigmacamp.myunittesting.ui.main.signup
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enigmacamp.goldmarket.utils.ResourceStatus
@@ -16,8 +16,6 @@ import com.enigmacamp.myunittesting.data.dao.MyDatabase
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
 import com.enigmacamp.myunittesting.databinding.FragmentSignupBinding
-import com.enigmacamp.myunittesting.utils.DefaultDispatcherProvider
-import com.enigmacamp.myunittesting.utils.DispatcherProvider
 
 /**
  * A simple [Fragment] subclass.
@@ -63,7 +61,7 @@ class SignupFragment : Fragment() {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 val db = MyDatabase.getDatabase(requireContext())
                 val repository = UserRepository(db.userDao(), RetrofitInstance.userRegistrationApi)
-                return SignUpViewModel(repository, DefaultDispatcherProvider()) as T
+                return SignUpViewModel(repository) as T
             }
 
         }).get(SignUpViewModel::class.java)

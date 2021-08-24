@@ -7,13 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.enigmacamp.goldmarket.utils.ResourceState
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
-import com.enigmacamp.myunittesting.utils.DispatcherProvider
 import com.enigmacamp.myunittesting.utils.RegistrationUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel constructor(
-    val userRepository: UserRepository,
-    val dispatcherProvider: DispatcherProvider
+    val userRepository: UserRepository
 ) : ViewModel() {
 
     var _registrationStatusLiveData = MutableLiveData<ResourceState>()
@@ -24,7 +23,7 @@ class SignUpViewModel constructor(
 
 
     fun userRegistration(userRegistration: UserRegistration) {
-        viewModelScope.launch(dispatcherProvider.io()) {
+        viewModelScope.launch(Dispatchers.IO) {
             _registrationStatusLiveData.postValue(ResourceState.loading())
             val result = RegistrationUtil.validateRegistrationInput(
                 userRegistration.userName,
