@@ -1,4 +1,4 @@
-package com.enigmacamp.goldmarket.utils
+package com.enigmacamp.myunittesting.utils
 
 enum class ResourceStatus {
     SUCCESS,

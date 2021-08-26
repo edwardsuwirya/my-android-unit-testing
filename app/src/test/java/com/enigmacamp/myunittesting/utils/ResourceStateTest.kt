@@ -1,7 +1,5 @@
 package com.enigmacamp.myunittesting.utils
 
-import com.enigmacamp.goldmarket.utils.ResourceState
-import com.enigmacamp.goldmarket.utils.ResourceStatus
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.enigmacamp.goldmarket.utils.ResourceState
+import com.enigmacamp.myunittesting.utils.ResourceState
 import com.enigmacamp.myunittesting.data.model.UserRegistration
 import com.enigmacamp.myunittesting.data.repository.UserRepository
 import com.enigmacamp.myunittesting.utils.RegistrationUtil
@@ -32,7 +32,6 @@ class SignUpViewModel constructor(
                 userRegistration.confirmedPassword,
                 userRegistration.email
             )
-            Log.d("Registration", "userRegistration: $result")
             if (result) {
                 val registeredUser = userRepository.registerUser(userRegistration)
                 registeredUser?.let {

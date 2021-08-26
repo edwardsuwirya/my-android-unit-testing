@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.enigmacamp.goldmarket.utils.ResourceStatus
+import com.enigmacamp.myunittesting.utils.ResourceStatus
 import com.enigmacamp.myunittesting.R
 import com.enigmacamp.myunittesting.data.api.RetrofitInstance
 import com.enigmacamp.myunittesting.data.dao.MyDatabase

@@ -1,4 +1,4 @@
-package com.enigmacamp.goldmarket.utils
+package com.enigmacamp.myunittesting.utils
 
 class ResourceState(
     val status: ResourceStatus,
