@@ -1,5 +1,6 @@
 package com.enigmacamp.myunittesting.data.repository
 
+import android.util.Log
 import com.enigmacamp.myunittesting.data.api.UserRegistrationApi
 import com.enigmacamp.myunittesting.data.dao.UserDao
 import com.enigmacamp.myunittesting.data.model.UserRegistration
@@ -17,6 +18,7 @@ class UserRepository constructor(
                     userDao.insert(registeredUser)
                     return registeredUser
                 } catch (e: Exception) {
+                    Log.d("Registration", "userRegistration: ${e.localizedMessage}")
                     return null
                 }
             } ?: run {

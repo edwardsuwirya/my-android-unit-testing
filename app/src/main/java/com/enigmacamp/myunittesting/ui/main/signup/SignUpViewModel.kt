@@ -1,5 +1,6 @@
 package com.enigmacamp.myunittesting.ui.main.signup
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,8 +32,8 @@ class SignUpViewModel constructor(
                 userRegistration.confirmedPassword,
                 userRegistration.email
             )
+            Log.d("Registration", "userRegistration: $result")
             if (result) {
-
                 val registeredUser = userRepository.registerUser(userRegistration)
                 registeredUser?.let {
                     _registrationStatusLiveData.postValue(ResourceState.success(true))
