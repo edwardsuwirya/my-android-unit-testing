@@ -63,7 +63,7 @@ class UserFindFragment : Fragment() {
             when (it.status) {
                 ResourceStatus.LOADING -> Log.d("UserFind", "Loading")
                 ResourceStatus.SUCCESS -> findBinding.resultTextView.text =
-                    (it.data as UserRegistration).toString()
+                    (it.data as UserRegistration).userName
                 ResourceStatus.ERROR -> findBinding.resultTextView.text = it.message
             }
         })

@@ -38,7 +38,7 @@ class UserDaoTest : BaseTest() {
         myDatabase?.run {
             createSampleData()
             val actualResult = userDao().findUserByName("dummy")
-            assertThat(actualResult.userName).isEqualTo(" ")
+            assertThat(actualResult.userName).isEqualTo("dummy")
         }
     }
 
